@@ -1,2 +1,2 @@
 # Undergraduate-Mathematics
-everything to know about undergrad math
+This is a repository of my mathematical knowledge. No guarantees on anything.

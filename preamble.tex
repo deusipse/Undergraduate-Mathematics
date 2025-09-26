@@ -1,0 +1,52 @@
+\usepackage{mathtools}
+\usepackage{amsthm, amsfonts, amssymb}
+\usepackage{parskip}
+\usepackage{microtype}
+\usepackage{extdash}
+\usepackage{booktabs}
+\usepackage{tikz, pgfplots}
+\pgfplotsset{compat=1.18}
+\usepackage[svgnames, dvipsnames, table]{xcolor}
+\usepackage{hyperref}
+\hypersetup{
+  pdfauthor   = {Edward Wang},
+  pdftitle    = {Mathematics},
+  pdfsubject  = {Mathematics},
+  pdfkeywords = {analysis, probability, prob, group theory, algebra, linear algebra, mathematics}
+}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{axiom}{Axiom}[section]
+\newtheorem{lemma}{Lemma}[section]
+\newtheorem{proposition}{Proposition}[section]
+\newtheorem{corollary}{Corollary}[section]
+\theoremstyle{definition}
+\newtheorem{example}{Example}[section]
+\newtheorem{definition}{Definition}[section]
+\newtheorem{remark}{Remark}[section]
+
+\DeclarePairedDelimiter\abs{\lvert}{\rvert}
+\DeclarePairedDelimiter\norm{\lVert}{\rVert}
+\DeclarePairedDelimiter\ceil{\lceil}{\rceil}
+\DeclarePairedDelimiter\floor{\lfloor}{\rfloor}
+\DeclarePairedDelimiterX\inpr[2]{\langle}{\rangle}{#1, #2}
+\DeclarePairedDelimiter\cyc{\langle}{\rangle}
+
+\DeclareMathOperator{\id}{id}
+\DeclareMathOperator{\GL}{GL}
+\DeclareMathOperator{\SL}{SL}
+\DeclareMathOperator{\Hom}{Hom}
+\DeclareMathOperator{\sgn}{sgn}
+\DeclareMathOperator{\lcm}{lcm}
+
+
+\newcommand\N{\mathbb{N}}
+\newcommand\Z{\mathbb{Z}}
+\newcommand\Q{\mathbb{Q}}
+\newcommand\R{\mathbb{R}}
+\newcommand\C{\mathbb{C}}
+\newcommand\F{\mathbb{F}}
+\renewcommand\O{\varnothing}
+
+\let\epsilon\varepsilon
+\let\vec\mathbf

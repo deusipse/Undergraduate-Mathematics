@@ -1,0 +1,136 @@
+\chapter{Linear Algebra}
+
+\section{Vector spaces}
+
+We begin by recalling the definition of vector spaces.
+
+\begin{definition}[Vector space]
+  Let $\F$ be a field. A \emph{vector space} over $\F$ is a set $V$ with a binary operation $+$ and function $\cdot \colon \F \times V \to V$ such that
+  \begin{itemize}
+    \item $(V, +)$ is an abelian group with identity $\vec{0}$,
+    \item $1v = v$ for all $v \in V$ (identity),
+    \item $a(bv) = (ab)v$ for all $a, b \in \F$ and $v \in V$ (associativity),
+    \item $a(u + v) = au + bv$ and $(a+b)v = av + bv$ for all $a, b \in \F$ and $u, v \in V$ (distributivity).
+  \end{itemize}
+\end{definition}
+
+\begin{example}
+  Common examples of vectors spaces include
+  \begin{itemize}
+    \item $\F^{n} = \{(x_1, x_2, \dots, x_n) : x_i \in \F\}$ (e.g. $\R^2$)
+    \item $M_{m\times n}(\F)$, the set of $m\times n$ matrices with entries in $\F$
+    \item $P_n(\F)$, the set of polynomials of degree $n$ with coefficients in  $\F$ 
+    \item $C(\R, \R)$, the set of continuous functions from $\R$ to $\R$ 
+    \item $C^1(\R, \R)$, the set of differentiable functions from $\R$ to $\R$
+  \end{itemize}
+\end{example}
+
+Linear algebra is the study of linear transformations \Emdash maps that preserve vector addition and scalar multiplication.
+
+\begin{definition}[Linear transformation]
+  Let $V, W$ be vector spaces over $\F$. A \emph{linear transformation}, or \emph{linear map}, is a function $T\colon V \to W$ such that:
+  \begin{itemize}
+    \item $T(u + v) = T(u) + T(v)$ for all  $u, v \in V$,
+    \item $T(\alpha v) = \alpha T(v)$ for all  $\alpha \in \F$, $v \in V$.
+  \end{itemize}
+  A linear transformation from $V$ to itself is a \emph{linear operator}.
+\end{definition}
+
+Indeed, linear transformations are a kind of homomorphism. To this end, we will let $\Hom(V, W)$ denote the set of linear transformations from $V$ to $W$. (This is also sometimes notated as $\mathcal{L}(V, W)$.)
+
+\begin{proposition}
+  The set of linear transformations from $V$ to $W$, $\Hom(V, W)$ is a vector space.
+\end{proposition}
+\begin{proof}
+  We first show that linear transformations form an abelian group under multiplication. Obviously there is an additive identity, the zero map that takes every element to the zero vector. Let $S, T \in \Hom(V, W)$. Then define $(S+T)(v) \coloneq S(v) + T(v)$. This is obviously a linear map. It is also not hard to verify that scalar multiplication works as it should in a vector space, and that distributivity holds.
+\end{proof}
+
+\begin{definition}
+  A linear transformation $T\colon V \to W$ is \emph{invertible} if there exists a linear transformation $S\colon W \to V$ such that $TS = I_{V}$ and $ST = I_{W}$.
+\end{definition}
+
+\begin{proposition}
+  A linear transformation is invertible if and only if it is bijective.
+\end{proposition}
+\begin{proof}
+  TODO
+\end{proof}
+
+\begin{definition}
+  A linear transformation that is bijective is an \emph{isomorphism}.
+\end{definition}
+
+\begin{proposition}
+  Let $U, U', V, V'$ be vector spaces over $\F$, and suppose that $\varphi \colon U \to U'$ and $\psi \colon V \to V'$ are isomorphisms. Then the map $\Phi \colon \Hom(U, V) \to \Hom(U', V')$ where $\Phi = \psi \circ T \circ \varphi^{-1}$ is an isomorphism.
+\end{proposition}
+\begin{proof}
+  We need to show that $\Psi$ is both a linear transformation and bijective. Also refer to the commutative diagram [TODO]
+\end{proof}
+
+We know that every linear transformation has a corresponding matrix. This is because every linear transformation is completely defined by its values on a generating (spanning) set. That is, suppose $S \subseteq V$ is a set that spans $V$. This means that every vector in $V$ is a linear combination of the vectors in $S$. Then the values that a linear transformation $T\colon V \to W$ takes for all $s \in S$ completely define it. In other words, if we know $T(s)$ for all $s \in S$ where $S$ spans $V$, then we know $T$.
+
+ \begin{definition}
+   A set $S \subseteq V$ is said to \emph{span} $V$ if any $v$ in $V$ can be written as a linear combination of vectors in $S$. That is, if $S = \{s_1, s_2, \dots, s_n\}$, then for any $v \in V$ we can write \[
+     v = \alpha_1 s_1 + \dots + \alpha_n s_n
+   \] for scalars $\alpha_i \in \F$.
+\end{definition}
+
+\begin{definition}
+  Let $S = \{s_1, s_2, \dots, s_n\} \subseteq V$. Then $S$ is said to be \emph{linearly independent} if \[
+    \alpha_1 s_1 + \dots + \alpha_n s_n = \vec{0}
+  \] if and only if $\alpha_i = 0$ for all $1 \le i \le n$.
+\end{definition}
+
+\begin{definition}
+  A \emph{basis} for a vector space $V$ is a linearly independent set that spans $V$.
+\end{definition}
+
+\begin{remark}
+  We only deal with \textit{finite} dimensional vector spaces here, so all our bases have a finite number of elements. In addition, our definition is technically a \emph{Hamel} basis, as there are a number of ways to define a basis.
+\end{remark}
+
+\begin{proposition}
+  Any two bases of a vector space have the same number of elements.
+\end{proposition}
+\begin{proof}
+  TODO
+\end{proof}
+
+\begin{definition}
+  The \emph{dimension} of a vector space $V$ is the number of elements in a basis of $V$, and is denoted $\dim(V)$.
+\end{definition}
+
+Bases are a useful way to assign coordinates to vectors. In particular, if $\dim(V)=n$, then $\F^{n}$ is isomorphic to $V$, where $V$ is a vector space. The isomorphism is formed by choosing a basis of $V$.
+
+Suppose that $V$ is a vector space and let $B$ be a basis of $V$. If $v \in V$, then we write the \emph{coordinate vector} of $v$ with respect to $B$ as $[v]_B$ or $B^{-1}v$.
+
+If $B = \{v_1, v_2, \dots, v_n\}$ and $v = \sum_{i = 1}^{n} \alpha_i v_i$, then we can write the column vector \[
+  [v]_B = \begin{bmatrix} \alpha_1 \\ \vdots \\ \alpha_n \end{bmatrix}.
+\] 
+In fact, we can define (by abuse of notation) the map $B\colon \F^{n} \to V$ where $(x_1, \dots, x_n) \mapsto x_1v_1 + \dots + x_nv_n$.
+
+Now consider a linear map $T\colon U \to V$, where $\dim U = n$ and $\dim V = m$. Let $B$ and $B'$ be bases for $U$ and $V$ respectively. Then $(B')^{-1} \circ T \circ B \in \Hom(\F^n, \F^m) \cong M_{m\times n}(\F)$.
+
+Let's see what's going on here. We basically are mapping an element of $\F^{n}$ to an element of $\F^{m}$ by the following process: \[
+  \F^{n} \xlongrightarrow{B} U \xlongrightarrow{T} V \xlongrightarrow{(B')^{-1}} F^{m}.
+\] 
+Moreover, this map is a linear map since it is the composition of a bunch of linear maps ($B$, $B'$ are isomorphisms), so $(B')^{-1}\circ T \circ B$ is also a linear map from $\F^{n}$ to $\F^{m}$. We also know that maps from $\F^{n}$ to $\F^{m}$ are represented as matrices. In particular, if $U = V$, then we will write $B^{-1} \circ T \circ B = [T]_B$.
+
+\begin{example}
+  Let $T\colon P_2(\F) \to P_2(\F)$ be the map defined by $T(p(x)) = \frac{d}{dx} p(x)$. Then, 
+  \begin{align*}
+    \frac{d}{dx} (1) &= 0 \\
+    \frac{d}{dx} (x) &= 1 \\
+    \frac{d}{dx} (x^2) &= 2x
+  \end{align*}
+  so \[
+    [T]_B = 
+    \begin{bmatrix}
+      0 & 1 & 0 \\
+      0 & 0 & 2 \\
+      0 & 0 & 0
+    \end{bmatrix}.
+  \] 
+\end{example}
+
+

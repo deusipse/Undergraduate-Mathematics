@@ -1,0 +1,365 @@
+\chapter{Group Theory}
+
+\section{Groups, permutations, subgroups}
+
+\begin{definition}
+  A \emph{binary operation}, also referred to as a \emph{law of composition} on a set $S$ is a mapping from $S \times S$ to $S$. We say that a binary operation $\cdot \colon S \times S\to S$ is 
+  \begin{itemize}
+    \item \emph{associative} if $a\cdot(b\cdot c) = (a\cdot b)\cdot c$ for all $a, b, c \in S$,
+    \item \emph{commutative} if  $a\cdot b = b\cdot a$ for all $a, b, \in S$.
+  \end{itemize}
+\end{definition}
+\begin{remark}
+  The $\cdot$ will usually be implicit. That is, $ab$ will denote $a \cdot b$ where $\cdot$ is a binary operation.
+\end{remark}
+The following are all familiar examples of laws of composition.
+\begin{example}\phantom{}
+  \begin{enumerate}
+    \item $+\colon \R \times \R \to \R$ defines the mapping $(x, y) \mapsto x + y$.
+    \item $\cdot\colon \R \times \R \to \R$ defines the mapping $(x, y) \mapsto xy$.
+    \item $+\colon \Z \times \Z \to \Z$ defines the mapping $(a, b) \mapsto a + b$.
+    \item $M_{2\times 2}(\R) \times M_{2\times 2}(\R) \to M_{2\times 2}(\R)$ has a mapping $(A, B) \mapsto AB$ (matrix multiplication).
+  \end{enumerate}
+\end{example}
+All of the above examples were both associative and commutative, except for the last one, which was only associative (matrix multiplication does not commute in general).
+\begin{example}
+  Let $T$ be a set, and let $M$ denote the set of functions from $T$ to $T$. Take two elements $f$ and $g$ from $M$. Then there exists a law of composition $f\circ g$, known as function composition, defined as $(f\circ g)(t) \coloneq f(g(t))$ for all $t \in T$. This law is associative, since $(f\circ (g\circ h))(t) = f(g(h(t))) = ((f\circ g)\circ h)(t)$.
+\end{example}
+Suppose we want to find the \emph{product} of $n$ elements $a_1 \cdots a_n$. If the law of composition is not associative, then there are many ways to write such a product, since the law of composition is only defined for two elements. For example, we could write the product as any of
+\begin{align*}
+  &(a_1(a_2a_3))a_4\cdots \\
+  &(a_1a_2(a_3a_4))\cdots,
+\end{align*}
+which could all have distinct results. However, if the law is associative, then all ways will yield the same unique product.
+\begin{proposition}
+  Let there be given an associative law of composition on a set $S$. Then, there exists a unique way to write the product of $n$ elements, which will temporarily be denoted as \[
+    [a_1 \cdots a_n].
+  \] 
+  We define $[a_1 \cdots a_n]$ inductively with the following properties:
+  \begin{enumerate}
+    \item The product of a single element is itself: $[a_1] = a_1$.
+    \item The product of two elements is given by the law of composition: $[a_1a_2] = a_1a_2$.
+    \item For all integers $1 \le i \le n-1$, we have $[a_1\cdots a_n] = [a_1 \cdots a_i][a_{i+1} \cdots a_n]$.
+  \end{enumerate}
+\end{proposition}
+\begin{proof}
+  We will proceed via strong induction on $n$. The base case $n = 1$ and $n = 2$ are trivial. Now suppose that for all $k \le n-1$, we have already defined a product $[a_1 \cdots a_k]$. We must show that $[a_1 \cdots a_n]$ satisfies 3.
+
+  Take $[a_1 \cdots a_n] = [a_1 \cdots a_{n-1}][a_n]$. Both terms on the right hand side are unique by the hypothesis, so the left hand side must also be unique. Next, we have 
+  \begin{align*}
+    [a_1 \cdots a_n] &= [a_1 \cdots a_{n-1}][a_n] \\
+                     &= \big([a_1 \cdots a_{j}][a_{j+1}\cdots a_{n-1}]\big)[a_n],
+  \end{align*}
+  for all $1 \le j \le n-2$, and by associativity, we have 
+  \begin{align*}
+    \big([a_1 \cdots a_{j}][a_{j+1}\cdots a_{n-1}]\big)[a_n] &= [a_1 \cdots a_j]\big([a_{j+1}\cdots a_{n-1}][a_n]\big) \\
+                                                             &= [a_1 \cdots a_j][a_{j+1} \cdots a_n],
+  \end{align*}
+  by 3., and we are done.
+\end{proof}
+
+\begin{definition}
+  An \emph{identity} for a given law of composition $\cdot \colon S\times S \to S$ is an element $e \in S$ such that $ea = ae = a$ for all $a \in S$.
+\end{definition}
+
+\begin{remark}
+  If the law of composition is written multiplicatively, then we will usually denote the identity element by $1$. Otherwise, if it is written additively, we will usually denote it by $0$.
+\end{remark}
+
+\begin{example}
+  Multiplication has the identity $1$, and addition has the identity $0$. Matrix multiplication has the identity $\begin{bmatrix} 1 & 0 \\ 0 & 1 \end{bmatrix}$. Function composition has the identity element $\id\colon X \to X$ such that $\id_X(x) = x$.
+\end{example}
+
+\begin{proposition}
+  An identity element, if it exists, is unique.
+\end{proposition}
+\begin{proof}
+  Let $e$ and $e'$ both be identities. Then, $ee' = e$ but also $ee' = e'e = e'$, so $e = e'$.
+\end{proof}
+
+\begin{definition}
+  Let there be a law of composition on $S$, and suppose that it has identity $1$. An element $a \in S$ is \emph{invertible} if there exists  $b \in S$ such that $ab = ba = 1$. If $a$ is invertible, we call $b$ the \emph{inverse} of $a$ and write $a^{-1} = b$.
+\end{definition}
+
+\begin{proposition}
+  If $a$ is invertible then $a^{-1}$ is unique.
+\end{proposition}
+\begin{proof}
+  Suppose $b$ and $b'$ are both inverses of $a$. Then $ab = ba = 1$ and $ab' = b'a = 1$. But then $b'ab = b' = (b'a)b = 1b = b$. Hence the inverse is unique.
+\end{proof}
+
+\begin{remark}
+  We denote the product of $a$ with itself $n$ times by $\underbrace{a\cdots a}_n = a^n$. By convention, $a^{0}$ is defined to be $1$ (the identity). Finally, $a^{-n}$ is the product of $a^{-1}$ by itself $n$ times. That is, $\underbrace{a^{-1}\cdots a^{-1}}_n = a^{-n}$.
+\end{remark}
+
+\begin{definition}[Group]
+  A \emph{group} is a set $G$ with a law of composition such that 
+  \begin{enumerate}
+    \item the law of composition is associative,
+    \item $G$ contains an identity element,
+    \item every element of $G$ is invertible.
+  \end{enumerate}
+\end{definition}
+
+More formally, a group is an ordered pair of a set $G$ and a binary operation $\cdot$ on $G$ that satisfies the three group axioms.
+
+\begin{definition}
+  If the law of composition on a group $G$ is commutative, then $G$ is said to be an \emph{abelian} group.
+\end{definition}
+
+\begin{example} \hfill
+  \begin{itemize}
+    \item Addition is a group over $\R$. That is, $(\R, +)$ is a group. Moreover, it is abelian.
+    \item $(\Z, \times)$ is not a group, because integers do not have multiplicative inverses.
+    \item  $(M_{2\times 2}(\R), \cdot)$ is not a group because some matrices are not invertible.
+    \item Take  $\R^{\times} \coloneq \R\setminus \{0\}$. Then $\R^{\times}$ is a group under multiplication.
+    \item Let $\GL_n(\R)$ be the set of $n\times n$ invertible matrices with real entries. Then $\GL_n(\R)$ is a group under matrix multiplication. Note that it is not abelian, since matrix multiplication is not, in general, commutative.
+  \end{itemize}
+\end{example}
+
+\begin{definition}
+  The \emph{order} of a group $(G, \cdot)$ is the number of elements in $G$. This is denoted by $\abs{G}$. If $\abs{G} < \infty$, then $G$ is a \emph{finite} group. Otherwise, it is an \emph{infinite} group.
+\end{definition}
+
+\begin{proposition}[Cancellation law]
+  Let $(G, \cdot)$ be a group, and take $a, b, c \in G$. Then, both of the following are true:
+  \begin{enumerate}
+    \item If $ab = ac$ or $ba = ca$, then $b = c$.
+    \item If $ab = a$ or $ba = a$, then $b = 1.$
+  \end{enumerate}
+\end{proposition}
+\begin{proof}\phantom{}
+  \begin{enumerate}
+    \item Take $ab = ac$. Left multiplying by $a^{-1}$ gives $a^{-1}b = a^{-1}c$ so $b = c$. The other case follows identically.
+    \item Take $c = 1$ in part 1.
+  \end{enumerate}
+\end{proof}
+
+\begin{definition}
+  A \emph{permutation} is a bijection $\sigma \colon S \to S$. The set of permutations of a set $X$ is denoted $S_X$ and called the \emph{symmetric group} of $X$. In particular, if $X = \{1, 2, \dots, n\}$ and $\abs{X} = n$, we write $S_n$ and say that it is the symmetric group of degree  $n$.
+\end{definition}
+
+\begin{proposition}
+  The symmetric group  $S_n$ is a group under function composition. That is, $(S_n, \circ)$ is a group.
+\end{proposition}
+\begin{proof}
+  We must check that function composition is closed and associative, all elements are invertible and that there exists an identity.
+  \begin{enumerate}
+    \item Obviously, the composition of two bijections is also a bijection. Hence $S_n$ is closed under $\circ$.
+    \item It is also obvious that function composition is associative (we proved this earlier).
+    \item Since all bijections are invertible, we know that all elements of $S_n$ have an inverse.
+    \item Finally, the identity function $\id$ which maps every element to itself is the identity.
+  \end{enumerate}
+  Hence $(S_n, \circ)$ is a group.
+\end{proof}
+
+\begin{remark}
+  The order of $S_n$ is $\abs{S_n} = n!$.
+\end{remark}
+
+\begin{example}
+  Take $\sigma \in S_5$ defined according to the table
+  \begin{center}
+    \begin{tabular}{c|ccccc}
+      $i$ & 1 & 2 & 3 & 4 & 5 \\
+      \hline
+      $\sigma(i)$ & 2 & 3 & 1 & 5 & 4
+    \end{tabular}
+  \end{center}
+  We will write this as $\sigma = (123)(45)$, with each bracketed string forming a `cycle'. In particular, 2-cycles like $(45)$ are called \emph{transpositions}. Note that cycle notation is not unique. In cycle notation, if an element is omitted, it is assumed that it maps to itself.
+\end{example}
+\begin{example}
+  Take $s, t \in  S_5$, and let $s = (123)(45)$ and $t = (12)(34)$. Then $st = s\circ t = (3541)$. Similarly, $ts = t\circ s = (2453)$. Note that $st \neq ts$ so $S_n$ is not abelian. 
+\end{example}
+
+Every permutation has an associated permutation matrix. The idea is that for every $s \in S_n$, there exists $P_s \in M_{n\times n}$ such that $P_sA$ permutes the rows of  $A$ according to $s$. This is trivially constructed by applying the permutation to \textit{columns} of the identity matrix. We have \[
+  (P_s)_{ij} = 
+  \begin{cases}
+    1 &\text{$s(j) = i$} \\
+    0 &\text{otherwise.}
+  \end{cases}
+\] 
+For example, consider the permutation $s = (123)(45)$. Take the standard basis vectors  $\vec{e_1} = \begin{bmatrix} 1 \\ 0 \\ 0 \\ 0 \\ 0 \end{bmatrix}$ and so on. We want $P_s \vec{e_1} = \vec{e_2}$, $P_s \vec{e_2} = \vec{e_3}$, $P_s \vec{e_3} = \vec{e_1}$ and so on. By permuting the columns, we get
+\begin{align*}
+  P &= 
+  \begin{bmatrix}
+    \vec{e_2} \,|\, \vec{e_3} \,|\, \vec{e_1} \,|\, \vec{e_5} \,|\, \vec{e_4}
+  \end{bmatrix} \\
+    &=
+    \begin{bmatrix}
+      0 & 0 & 1 & 0 & 0 \\
+      1 & 0 & 0 & 0 & 0 \\
+      0 & 1 & 0 & 0 & 0 \\
+      0 & 0 & 0 & 0 & 1 \\
+      0 & 0 & 0 & 1 & 0 \\
+    \end{bmatrix}
+\end{align*}
+In fact, matrix multiplication by permutation matrices results in the composition of the permutations.
+
+\begin{definition}
+  Let $P_s$ be the permutation matrix associated with $s \in S_n$. The \emph{sign} of $s$ is defined to be $\sgn(s) = \det(P_s) = \pm 1$. A permutation is \emph{even} if its sign is $1$, and \emph{odd} if its sign is $-1$.
+\end{definition}
+
+\begin{remark}
+  Every permutation is a product of transpositions. This is equivalent to the fact that the permutation matrix is the result of a series of elementary row operations on the identity matrix.
+\end{remark}
+
+\begin{definition}[Subgroup]
+  A subset $H$ of a group $G$ is a \emph{subgroup} if $H$ is a group with respect to the law of composition of $G$.
+\end{definition}
+
+\begin{example} \phantom{}
+  \begin{enumerate}
+    \item $\R^{\times}$ is a subgroup of $\C^{\times}$ under multiplication.
+    \item $\{z \in \C : \abs{z} = 1\}$ is a subgroup of $\C^{\times}$. This is the \emph{circle group}.
+    \item $\{A \in \GL_n(\R) : \det(A) = 1\}$ is a subgroup of $\GL_n(\R)$. In fact, this subgroup is so important that we give it a name, the \emph{special linear group}, and denote it with $\SL_n(\R)$.
+  \end{enumerate}
+\end{example}
+
+\begin{remark}
+  If $G$ is a group, then it contains two obvious subgroups: $G$ itself and $\{1\}$ (the \emph{trivial group}).
+\end{remark}
+
+\begin{definition}
+  A subgroup $H$ of $G$ is a \emph{proper} subgroup if $H \neq G$.
+\end{definition}
+
+With this definition, the trivial subgroup is a proper subgroup of any non-trivial group.
+
+Take a positive integer $a$. Then, the set of all multiples of $a$ is denoted by \[
+  a\Z \coloneq \{x \in \Z : x = ak,\ \text{where}\ k \in \Z\}.
+\] 
+\begin{proposition}
+  The set $a\Z$ is a subgroup of $\Z$ under addition.
+\end{proposition}
+\begin{proposition}
+  TODO
+\end{proposition}
+
+\begin{theorem}\label{thm:1}
+  Let $S$ be a subgroup of $(\Z, +)$. Then either $S = \{0\}$ or $S = a\Z$ for some positive integer $a$.
+\end{theorem}
+\begin{proof}
+  Suppose that $S$ is non-trivial, and contains some element other than $0$.
+\end{proof}
+
+Take two positive integers $a$ and $b$ and define the set \[
+  a\Z + b\Z \coloneq \{ar + bs: r, s \in \Z\}.
+\] 
+\begin{proposition}
+  The set $a\Z + b\Z$ is a subgroup of  $\Z$ under addition.
+\end{proposition}
+\begin{proof}
+  TODO
+\end{proof}
+
+Since $a\Z + b\Z$ is a (non-trivial) subgroup of  $\Z$, by Theorem~\ref{thm:1}, it must be equal to some $d\Z$.
+
+\begin{definition}
+  Let $d$ be the unique positive integer such that $a\Z + b\Z = d\Z$. We call $d$ the \emph{greatest common divisor} of $a$ and $b$, denoted $d = \gcd(a, b)$.
+\end{definition}
+
+\begin{proposition}
+  The greatest common divisor defined in this way has the same properties as the usual definition of the greatest common divisor. That is, if $d = \gcd(a, b)$, then 
+  \begin{enumerate}
+    \item $d \mid a$ and  $d \mid b$,
+    \item if  $e \in \Z$ and $e \mid a$ and  $e \mid b$, then  $e \mid d$,
+    \item there exists  $r, s \in Z$ such that $ar + bs = d$.
+  \end{enumerate}
+\end{proposition}
+\begin{proof}
+  TODO
+\end{proof}
+
+\begin{proposition}[Euclidean algorithm]
+  Let $n, d$ be natural numbers such that  $n = qd + r$. Then, $\gcd(n, d) = \gcd(d, r)$.
+\end{proposition}
+\begin{proof}
+  We will prove that the set of common divisors of $n$ and $d$ is the same as the set of common divisors of $d$ and $r$.
+
+  Suppose $a$ is a common divisor of $n$ and $d$, that is, $a \mid n$ and $a \mid d$. This means that $a \mid n\alpha + d\beta$ for any integers $\alpha, \beta$. Specifically, we have $a \mid n - qd = r$, so $a \mid r$. Therefore $a$ is a common divisor of $n$ and $r$.
+
+  Similarly, suppose $a$ is a common divisor of $d$ and $r$, that is, $a \mid d$ and $a \mid r$. We have $a \mid qd + r = n$, so $a \mid n$. Therefore $a$ is a common divisor of $n$ and $d$.
+
+  The set of divisors are therefore the same, so the greatest common divisor must also be the same.
+\end{proof}
+
+\begin{example}
+  We can find the greatest common divisor of two numbers using the Euclidean algorithm. For example, let $a = 154$ and  $b = 62$. Since $a = 2b + 30$, we have 
+  \begin{align*}
+    a\Z + b\Z &= (2b + 30)\Z + b\Z \\
+              &= b\Z + 30\Z.
+  \end{align*}
+  Now $b = 2\times 30 + 2$, so 
+  \begin{align*}
+    b\Z + 30\Z &= (2\times 30 + 2)\Z + 30\Z \\
+               &= 30\Z + 2\Z.
+  \end{align*}
+  Now the greatest common divisor is obviously $2$. Hence $d = 2$.
+\end{example}
+
+\begin{definition}
+  Two non-zero integers $a, b$ are \emph{coprime}, or \emph{relatively prime}, if $\gcd(a, b) = 1$. That is, $a\Z + b\Z = \Z$.
+\end{definition}
+
+\begin{proposition}
+  Two non-zero integers $a$ and $b$ are coprime if and only if there exist $r, s$ such that $ar + bs = 1$.
+\end{proposition}
+\begin{proof}
+  TODO
+\end{proof}
+
+\begin{proposition}[Euclid's lemma]
+  Let $p$ be a prime number, and let $a, b$ be non-zero integers. If $p \mid ab$, then $p \mid a$ or $p \mid b$.
+\end{proposition}
+\begin{proof}
+  TODO
+\end{proof}
+
+\begin{proposition}
+  Let $a, b$ be non-zero integers. Then $a\Z \cap b\Z$ is a subgroup.
+\end{proposition}
+\begin{proof}
+  TODO
+\end{proof}
+
+Hence by Theorem~\ref{thm:1}, $a\Z \cap b\Z = m\Z$ for some integer $m$.
+
+\begin{definition}
+  For any two non-zero integers $a$ and $b$, the \emph{least common multiple} of $a$ and $b$ is $m$ such that $a\Z \cap b\Z = m\Z$. We denote $m$ by $\lcm(a, b)$.
+\end{definition}
+
+\begin{proposition}
+  Let $a, b$ be non-zero integers and let  $m = \lcm(a, b)$. Then,
+  \begin{enumerate}
+    \item $a \mid m$ and  $b\mid m$,
+    \item if $a \mid n$ and  $b\mid n$, then  $m \mid n$.
+  \end{enumerate}
+\end{proposition}
+\begin{proof}
+  TODO
+\end{proof}
+
+\begin{corollary}
+  Let $d = \gcd(a, b)$ and $m = \gcd(a, b)$ for two non-zero integers  $a, b$. Then $ab = dm$.
+\end{corollary}
+
+\section{Cyclic groups}
+
+\begin{definition}
+  Let $G$ be a group and take $x \in G$. The \emph{cyclic subgroup} of $G$ genearted by $x$ is \[
+    \cyc{x} \coloneq \{x^{k} : k \in \Z\}
+  \] 
+\end{definition}
+
+\begin{proposition}
+  Let $G$ be a group and take $x \in G$. Let $\cyc{x}$ be the cyclic subgroup generated by $x$. Suppose $S = \{k \in \Z : x^{k} = 1\}$. Then,
+  \begin{enumerate}
+    \item the set $S$ is a subgroup of $(\Z, +)$,
+    \item $x^{r} = x^{s}$ if and only if $x^{r-s} = 1$ 
+  \end{enumerate}
+\end{proposition}
+\begin{proof}
+  TODO
+\end{proof}
+
