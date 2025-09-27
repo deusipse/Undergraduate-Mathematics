@@ -5,19 +5,19 @@
 \begin{definition}
   The \emph{sample space}, denoted $\Omega$ is the set of all possible outcomes of an experiment.
 
-  Each element $\omega \in \Omega$ is called an \emph{outcome}. An \emph{event} $E$ is a subset of $\Omega$, and is hence a set of possible outcomes. Thus $\Omega$ itself is an event, the \emph{certain event}, and so is the empty set $\O$, the \emph{impossible event}.
+  Each element $\omega \in \Omega$ is called an \emph{outcome}. An \emph{event} $E$ is a subset of $\Omega$, and is hence a set of possible outcomes. Thus $\Omega$ itself is an event, the \emph{certain event}, and so is the empty set $\O$, the \emph{impossible event}. An event $E$ \emph{occurs} if the outcome $\omega$ is in $E$.
 \end{definition}
 
 \begin{definition}
   If $\Omega$ is countable, then we say that it is a \emph{discrete} sample space. Otherwise, if $\Omega$ is uncountable, we say that it is a \emph{continuous} sample space.
 \end{definition}
 
-Since events are just sets, we can use the usual properties of sets.
+Since events are sets, we can use the usual properties of sets. In particular, if $A$ and $B$ are events, then $A \cup B$ is an event (that either $A$ or $B$ occur) and $A \cap B$ is an event (that both $A$ and $B$ occur).
 
 \begin{proposition}[Set theory properties]
   Let $A$, $B$, $C$ be subsets of $\Omega$.
   \begin{enumerate}
-    \item We have $A \cup \O = A$ and $A \cap \O = \O$.
+\item We have $A \cup \O = A$ and $A \cap \O = \O$.
     \item We have $A \cup \Omega = \Omega$ and $A \cap \Omega = A$. 
     \item We have $A \cup (\Omega \setminus A) = \Omega$ and $A \cap (\Omega \setminus A) = \O$. In other words, $A \cup A^{c} =\Omega$ and $A \cap A^{c} = \O$.
     \item (Commutativity) We have $A \cup B = B \cup A$  and $A \cap B = B \cap A$.
@@ -30,7 +30,7 @@ Since events are just sets, we can use the usual properties of sets.
 % In a discrete sample space $\Omega$, for each outcome $\omega \in \Omega$, we assign it a \emph{probability} $p_\omega$. Moreover, we require that $\sum_{\omega \in \Omega} p_{\omega} = 1$. The probability of an event $E$ is thus the sum of all the probabilities of the outcomes in $E$. We will see that this is not possible in a continuous probability space, due to its uncountable nature.
 
 \begin{definition}
-  Two events $A$ and $B$ are \emph{mutually exclusive} or \emph{disjoint} if $A \cap B = \O$. A set of events $\{E_i\}_{i \in I}$ is mutually exclusive if for all $i \neq j$, $E_i \cap E_j = \O$.
+  Two events $A$ and $B$ are \emph{mutually exclusive} or \emph{disjoint} if $A \cap B = \O$. A collection of events $\{E_i\}_{i \in I}$ is mutually exclusive if $E_i \cap E_j = \O$ for all $i \neq j$.
 \end{definition}
 
 \begin{definition}
@@ -39,30 +39,81 @@ Since events are just sets, we can use the usual properties of sets.
     \item For all events $E$, we have $\prob(E) \ge 0$.
     \item The probability of the sample space is $1$. That is, $\prob(\Omega) = 1$.
     \item (Countable additivity) Let $E_1, E_2, \dots$ be a countable sequence of mutually exclusive (disjoint) events. Then, \[
-    \prob\left( \bigcup_{i = 1}^{\infty} E_i \right) = \sum_{i = 1}^{\infty} \prob(E_i).
+    \prob\left(\, \bigcup_{i = 1}^{\infty} E_i \right) = \sum_{i = 1}^{\infty} \prob(E_i).
     \] 
   \end{enumerate}
 \end{definition}
+
+\begin{remark}
+  This differs from the definition of probability space one will encounter later on in a more advanced, measure theoretic course. The more formal definition of a probability space is something like the following: a probability space is a tuple $(\Omega, \mathcal{F}, \prob)$, where $\Omega$ is the sample space, $\mathcal{F} \subseteq 2^{\Omega}$ is a $\sigma$-algebra, and $\prob$ is a probability measure $\prob \colon \mathcal{F} \to [0, 1]$ satisfying $\prob(\Omega) = 1$ and countable additivity.
+
+  In particular, this our definition does not exactly work for uncountable sample spaces. The restriction for $\mathcal{F}$ to be a $\sigma$-algebra is exactly what is needed to `fix' this issue.
+\end{remark}
 
 \begin{proposition}
   Properties of the probability function:
   \begin{enumerate}
     \item We have $\prob(\O) = 0$.
     \item We have $\prob(A^{c}) = \prob(\Omega \setminus A) = 1 - \prob(A)$.
+    \item We have $\prob(A) \le 1$.
+    \item We have $\prob(A \cup B) = \prob(A) + \prob(B) - \prob(A \cap B)$.
     \item If $A \subseteq B$, then $\prob(A) \le \prob(B)$.
     \item (Finite additivity) If $E_1, E_2, \dots, E_n$ are mutually exclusive events, then \[
-      \prob \left( \bigcup_{i = 1}^{n} E_i \right) = \sum_{i = 1}^{n} \prob(E_i)\]
+      \prob \left(\, \bigcup_{i = 1}^{n} E_i \right) = \sum_{i = 1}^{n} \prob(E_i)\]
     \item If $A_1 \subseteq A_2 \subseteq \dots$ and $B = \bigcup_{i = 1}^{\infty} A_i$, then $\prob(B) = \lim_{n \to \infty} \prob(A_n)$.
     \item If $A_1 \supseteq A_2 \supseteq \dots$ and $B = \bigcap_{i = 1}^{\infty} A_i$, then $\prob(B) = \lim_{n \to \infty} \prob(A_n)$.
   \end{enumerate}
-
 \end{proposition}
+\begin{proof}
+  We will prove (1), (2), (4), (6), and (7), and leave the rest as exercises.
+  \begin{enumerate}
+    \item This is a corollary of (2). Since $\O = \Omega^{c}$, we have $\prob(\O) = \prob(\Omega^{c}) = 1 - \prob(\Omega) = 1 - 1 = 0$.
+    \item This is a corollary of finite additivity (6), with $n = 2$. Consider the disjoint events $A$ and $A^{c}$. Since $A \cup A^{c} = \Omega$, we have $1 = \prob(\Omega) = \prob(A \cup A^{c}) = \prob(A) + \prob(A^{c})$, from which the result follows.
+    \item Exercise.
+    \item Again, this follows from finite additivity applied to the disjoint sets $A$ and $B \setminus A$. Since $A \cup (B \setminus A) = A \cup B$, we have 
+      \begin{align*}
+        \prob(A \cup B) &= \prob(A \cup (B \setminus A)) \\
+                        &= \prob(A) + \prob(B \setminus A).
+      \end{align*}
+      Notice that $B = (B \setminus A) \cup (A \cup B)$ is a disjoint union, from which we get $\prob(B) = \prob(B \setminus A) + \prob(A \cap B)$, so $\prob(B \setminus A) = \prob(B) - \prob(A \cap B)$. This, combined with the previous equation, yields \[
+        \prob(A \cup B) = \prob(A) + \prob(B) + \prob(A \cap B).
+      \] 
+    \item Exercise.
+    \item Consider the mutually exclusive events $E_1, \dots, E_n$. Let $E_{n+1} = E_{n+2} = \dots = \O$. Notice that $E_1, \dots$ still form a mutually exclusive collection of events, so countable additivity applies. Thus 
+      \begin{align*}
+        \prob \left( \, \bigcup_{i = 1}^{\infty} E_i \right) &= \sum_{i = 1}^{\infty} \prob(E_i) \\
+                                                             &= \sum_{i = 1}^{n} \prob(E_i) + \sum_{i = n+1}^{\infty} \prob(E_i) \\
+                                                             &= \sum_{i = 1}^{n} \prob(E_i) + 0,
+      \end{align*}
+      since $\prob(E_i) = \prob(\O) = 0$ for all $i > n$. Hence finite additivity holds.
+    \item Define $B_i = A_i \setminus A_{i - 1}$. Clearly all of $B_i$ are mutually exclusive, and moreover, $B = \bigcup_{i = 1}^{n} B_i$. Hence by countable additivity, 
+      \begin{align*}
+        \prob(B) &= \prob \left( \, \bigcup_{i = 1}^{\infty} B_i \right) \\
+                 &= \sum_{i = 1}^{\infty} \prob(B_i) \\
+                 &= \lim_{n \to \infty} \sum_{i = 1}^{n} \prob(B_i) \\
+                 &= \lim_{n \to \infty} \prob \left( \, \bigcup_{i = 1}^{n} B_i \right),
+      \end{align*}
+      with the last step being due to finite additivity. But $\bigcup_{i = 1}^{n} B_i = A_n$, so we have \[
+        \prob(B) = \lim_{n \to \infty} \prob(A_n)
+      \] as required.
+    \item Exercise. \qedhere
+  \end{enumerate}
+\end{proof}
+
+In a discrete sample space, all outcomes are disjoint. (This is obviously true, due to the fact that there can be only one outcome of an experiment!) Hence for any event $E$, we have that \[
+  \prob(E) = \sum_{\omega \in E} \prob(\omega).
+\] 
+\begin{remark}
+  It is important to note here that the statements $\prob(E) = 0 \implies E = \O$ and $\prob(E) = 1 \implies E = \Omega$ are \warning{not necessarily true}. For example, let $\Omega = \{H, T\}$ and define $\prob(H) = 0$ and $\prob(T) = 1$. Notice that $H \neq \O$ and $T \neq \Omega$.
+\end{remark}
 
 \begin{definition}
 We say that a collection of events $\{E_i\}_{i \in I}$ is \emph{exhaustive} if \[
     \bigcup_{i \in I} E_i = \Omega.
   \] 
 \end{definition}
+
+In particular, note that $A$ and $A^{c}$ are exhaustive, and also disjoint.
 
 \begin{definition}
   We define the \emph{conditional probability} of event $A$ \emph{given} event $B$ as \[
