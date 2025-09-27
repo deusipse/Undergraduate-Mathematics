@@ -1,1 +1,73 @@
 \chapter{Probability}
+
+\section{Basics}
+
+\begin{definition}
+  The \emph{sample space}, denoted $\Omega$ is the set of all possible outcomes of an experiment.
+
+  Each element $\omega \in \Omega$ is called an \emph{outcome}. An \emph{event} $E$ is a subset of $\Omega$, and is hence a set of possible outcomes. Thus $\Omega$ itself is an event, the \emph{certain event}, and so is the empty set $\O$, the \emph{impossible event}.
+\end{definition}
+
+\begin{definition}
+  If $\Omega$ is countable, then we say that it is a \emph{discrete} sample space. Otherwise, if $\Omega$ is uncountable, we say that it is a \emph{continuous} sample space.
+\end{definition}
+
+Since events are just sets, we can use the usual properties of sets.
+
+\begin{proposition}[Set theory properties]
+  Let $A$, $B$, $C$ be subsets of $\Omega$.
+  \begin{enumerate}
+    \item We have $A \cup \O = A$ and $A \cap \O = \O$.
+    \item We have $A \cup \Omega = \Omega$ and $A \cap \Omega = A$. 
+    \item We have $A \cup (\Omega \setminus A) = \Omega$ and $A \cap (\Omega \setminus A) = \O$. In other words, $A \cup A^{c} =\Omega$ and $A \cap A^{c} = \O$.
+    \item (Commutativity) We have $A \cup B = B \cup A$  and $A \cap B = B \cap A$.
+    \item (Associativity) We have $A \cup (B \cup C) = (A \cup B) \cup C$ and $A \cap (B \cap C) = (A \cap B) \cap C$.
+    \item (Distributivity) We have $A \cup (B \cap C) = (A \cup B) \cap (A \cup C)$ and $A \cap (B \cup C) = (A \cap B) \cup (A \cap C)$.
+    \item (De Morgan's laws) We have $\Omega \setminus (A \cup B) = (\Omega \setminus A) \cap (\Omega \setminus B)$ and $\Omega \setminus (A \cap B) = (\Omega \setminus A) \cup (\Omega \setminus B)$. In other words, $(A \cup B)^{c} = A^{c} \cap B^{c}$ and $(A \cap B)^{c} = A^{c} \cup B^{c}$.
+  \end{enumerate}
+\end{proposition}
+
+% In a discrete sample space $\Omega$, for each outcome $\omega \in \Omega$, we assign it a \emph{probability} $p_\omega$. Moreover, we require that $\sum_{\omega \in \Omega} p_{\omega} = 1$. The probability of an event $E$ is thus the sum of all the probabilities of the outcomes in $E$. We will see that this is not possible in a continuous probability space, due to its uncountable nature.
+
+\begin{definition}
+  Two events $A$ and $B$ are \emph{mutually exclusive} or \emph{disjoint} if $A \cap B = \O$. A set of events $\{E_i\}_{i \in I}$ is mutually exclusive if for all $i \neq j$, $E_i \cap E_j = \O$.
+\end{definition}
+
+\begin{definition}
+  Let $\Omega$ be a sample space and let $2^{\Omega}$ denote the power set of $\Omega$. Then  $\prob \colon 2^{\Omega} \to [0, 1]$ is a probability function that assigns to each event a probability. This function $\prob$ must satisfy the following axioms formulated by Kolmogorov:
+  \begin{enumerate}
+    \item For all events $E$, we have $\prob(E) \ge 0$.
+    \item The probability of the sample space is $1$. That is, $\prob(\Omega) = 1$.
+    \item (Countable additivity) Let $E_1, E_2, \dots$ be a countable sequence of mutually exclusive (disjoint) events. Then, \[
+    \prob\left( \bigcup_{i = 1}^{\infty} E_i \right) = \sum_{i = 1}^{\infty} \prob(E_i).
+    \] 
+  \end{enumerate}
+\end{definition}
+
+\begin{proposition}
+  Properties of the probability function:
+  \begin{enumerate}
+    \item We have $\prob(\O) = 0$.
+    \item We have $\prob(A^{c}) = \prob(\Omega \setminus A) = 1 - \prob(A)$.
+    \item If $A \subseteq B$, then $\prob(A) \le \prob(B)$.
+    \item (Finite additivity) If $E_1, E_2, \dots, E_n$ are mutually exclusive events, then \[
+      \prob \left( \bigcup_{i = 1}^{n} E_i \right) = \sum_{i = 1}^{n} \prob(E_i)\]
+    \item If $A_1 \subseteq A_2 \subseteq \dots$ and $B = \bigcup_{i = 1}^{\infty} A_i$, then $\prob(B) = \lim_{n \to \infty} \prob(A_n)$.
+    \item If $A_1 \supseteq A_2 \supseteq \dots$ and $B = \bigcap_{i = 1}^{\infty} A_i$, then $\prob(B) = \lim_{n \to \infty} \prob(A_n)$.
+  \end{enumerate}
+
+\end{proposition}
+
+\begin{definition}
+We say that a collection of events $\{E_i\}_{i \in I}$ is \emph{exhaustive} if \[
+    \bigcup_{i \in I} E_i = \Omega.
+  \] 
+\end{definition}
+
+\begin{definition}
+  We define the \emph{conditional probability} of event $A$ \emph{given} event $B$ as \[
+    \prob(A \mid B) = \frac{\prob(A \cap B)}{\prob(B)},
+  \] given that $\prob(B) > 0$.
+\end{definition}
+
+
