@@ -27,8 +27,6 @@ Since events are sets, we can use the usual properties of sets. In particular, i
   \end{enumerate}
 \end{proposition}
 
-% In a discrete sample space $\Omega$, for each outcome $\omega \in \Omega$, we assign it a \emph{probability} $p_\omega$. Moreover, we require that $\sum_{\omega \in \Omega} p_{\omega} = 1$. The probability of an event $E$ is thus the sum of all the probabilities of the outcomes in $E$. We will see that this is not possible in a continuous probability space, due to its uncountable nature.
-
 \begin{definition}
   Two events $A$ and $B$ are \emph{mutually exclusive} or \emph{disjoint} if $A \cap B = \O$. A collection of events $\{E_i\}_{i \in I}$ is mutually exclusive if $E_i \cap E_j = \O$ for all $i \neq j$.
 \end{definition}
@@ -45,13 +43,13 @@ Since events are sets, we can use the usual properties of sets. In particular, i
 \end{definition}
 
 \begin{remark}
-  This differs from the definition of probability space one will encounter later on in a more advanced, measure theoretic course. The more formal definition of a probability space is something like the following: a probability space is a tuple $(\Omega, \mathcal{F}, \prob)$, where $\Omega$ is the sample space, $\mathcal{F} \subseteq 2^{\Omega}$ is a $\sigma$-algebra, and $\prob$ is a probability measure $\prob \colon \mathcal{F} \to [0, 1]$ satisfying $\prob(\Omega) = 1$ and countable additivity.
+  This differs from the definition of probability space one will encounter later on in a more advanced, measure theoretic course. The formal definition of a probability space is the following: a probability space is a tuple $(\Omega, \mathcal{F}, \prob)$, where $\Omega$ is the sample space, $\mathcal{F} \subseteq 2^{\Omega}$ is a $\sigma$-algebra, and $\prob$ is a probability measure $\prob \colon \mathcal{F} \to [0, 1]$ satisfying $\prob(A) \ge 0$, $\prob(\Omega) = 1$, and countable additivity.
 
-  In particular, this our definition does not exactly work for uncountable sample spaces. The restriction for $\mathcal{F}$ to be a $\sigma$-algebra is exactly what is needed to `fix' this issue.
+  In particular, our definition does not work for some uncountable sample spaces. The restriction for $\mathcal{F}$ to be a $\sigma$-algebra is exactly what is needed to `fix' this issue.
 \end{remark}
 
-\begin{proposition}
-  Properties of the probability function:
+\begin{proposition}[Properties of probability]
+  Let $\Omega$ be a sample space and let $A, B$ be events. Let $\prob$ be a probability function on $\Omega$.
   \begin{enumerate}
     \item We have $\prob(\O) = 0$.
     \item We have $\prob(A^{c}) = \prob(\Omega \setminus A) = 1 - \prob(A)$.
@@ -76,7 +74,7 @@ Since events are sets, we can use the usual properties of sets. In particular, i
                         &= \prob(A) + \prob(B \setminus A).
       \end{align*}
       Notice that $B = (B \setminus A) \cup (A \cup B)$ is a disjoint union, from which we get $\prob(B) = \prob(B \setminus A) + \prob(A \cap B)$, so $\prob(B \setminus A) = \prob(B) - \prob(A \cap B)$. This, combined with the previous equation, yields \[
-        \prob(A \cup B) = \prob(A) + \prob(B) + \prob(A \cap B).
+        \prob(A \cup B) = \prob(A) + \prob(B) - \prob(A \cap B).
       \] 
     \item Exercise.
     \item Consider the mutually exclusive events $E_1, \dots, E_n$. Let $E_{n+1} = E_{n+2} = \dots = \O$. Notice that $E_1, \dots$ still form a mutually exclusive collection of events, so countable additivity applies. Thus 
@@ -86,7 +84,7 @@ Since events are sets, we can use the usual properties of sets. In particular, i
                                                              &= \sum_{i = 1}^{n} \prob(E_i) + 0,
       \end{align*}
       since $\prob(E_i) = \prob(\O) = 0$ for all $i > n$. Hence finite additivity holds.
-    \item Define $B_i = A_i \setminus A_{i - 1}$. Clearly all of $B_i$ are mutually exclusive, and moreover, $B = \bigcup_{i = 1}^{n} B_i$. Hence by countable additivity, 
+    \item Define $B_i = A_i \setminus A_{i - 1}$. Clearly all of $B_i$ are mutually exclusive, and moreover, $B = \bigcup_{i = 1}^{\infty} B_i$. Hence by countable additivity, 
       \begin{align*}
         \prob(B) &= \prob \left( \, \bigcup_{i = 1}^{\infty} B_i \right) \\
                  &= \sum_{i = 1}^{\infty} \prob(B_i) \\
@@ -100,11 +98,79 @@ Since events are sets, we can use the usual properties of sets. In particular, i
   \end{enumerate}
 \end{proof}
 
-In a discrete sample space, all outcomes are disjoint. (This is obviously true, due to the fact that there can be only one outcome of an experiment!) Hence for any event $E$, we have that \[
-  \prob(E) = \sum_{\omega \in E} \prob(\omega).
+In a discrete sample space, all outcomes are disjoint. (This is obviously true, due to the fact that there can be only one outcome of an experiment.) Hence for any event $E$, we have that \[
+  \prob(E) = \sum_{\omega \in E} \prob(\{\omega\}).
 \] 
 \begin{remark}
-  It is important to note here that the statements $\prob(E) = 0 \implies E = \O$ and $\prob(E) = 1 \implies E = \Omega$ are \warning{not necessarily true}. For example, let $\Omega = \{H, T\}$ and define $\prob(H) = 0$ and $\prob(T) = 1$. Notice that $H \neq \O$ and $T \neq \Omega$.
+  It is important to note that the statements $\prob(E) = 0 \implies E = \O$ and $\prob(E) = 1 \implies E = \Omega$ are \warning{not necessarily true}. For example, let $\Omega = \{H, T\}$ and define $\prob(H) = 0$ and $\prob(T) = 1$. Notice that $H \neq \O$ and $T \neq \Omega$.
+\end{remark}
+
+\section{Conditional probability and independence}
+
+\begin{definition}
+  The \emph{conditional probability} of event $A$ \emph{given} event $B$ is defined as \[
+    \prob(A \mid B) = \frac{\prob(A \cap B)}{\prob(B)},
+  \] assuming that $\prob(B) > 0$.
+\end{definition}
+
+This definition may be rearranged to get the equivalent formulation \[
+  \prob(A \cap B) = \prob(A \mid B) \prob(B),
+\] which sometimes may be more useful.
+
+\begin{definition}
+  We say that events $A$ and $B$ are \emph{positively related} (or \emph{positively correlated}) if $\prob(A \mid B) > \prob(A)$. Similarly, events  $A$ and $B$ are \emph{negatively related} if $\prob(A \mid B) < \prob(A)$.
+\end{definition}
+
+A simple calculation will show that if $\prob(A \mid B) > \prob(A)$, then $\prob(B \mid A) > \prob(B)$. Hence the intuition is that if two events are positively related, then knowing one event will boost the likelihood of the other event.
+
+\begin{definition}
+  Two events $A$ and $B$ are said to be \emph{independent} if \[
+    \prob(A \cap B) = \prob(A) \prob(B).
+  \] 
+\end{definition}
+
+If $A$ and $B$ are independent, then $\prob(A \mid B) = \prob(A)$, and similarly, $\prob(B \mid A) = \prob(B)$. However, these equations involving conditional probability only make sense when $\prob(A) > 0$ and $\prob(B) > 0$. Hence we have defined independence to make sense even when some of the probabilities are zero.
+
+\begin{proposition}[Properties of independence]
+  Suppose that $A$ and $B$ are independent events.
+  \begin{enumerate}
+    \item We have that $A$ and $B^{c}$ are independent.
+    \item We have that $A^{c}$ and $B$ are independent.
+    \item We have that $A^{c}$ and $B^{c}$ are independent.
+  \end{enumerate}
+\end{proposition}
+\begin{proof} \leavevmode
+  \begin{enumerate}
+    \item Since $A$ and $B$ are independent, we have $\prob(A \cap B) = \prob(A) \prob(B)$. Since $A = (A \cap B) \cup (A \cap B^{c})$ is a disjoint union, we have
+      \begin{align*}
+        \prob(A) &= \prob(A \cap B) + \prob(A \cap B^{c}) \\
+        \prob(A \cap B^{c}) &= \prob(A) - \prob(A \cap B) \\
+                            &= \prob(A) - \prob(A) \prob(B) \\
+                            &= \prob(A) (1 - \prob(B)) \\
+                            &= \prob(A) \prob(B^{c}),
+      \end{align*}
+      so we see that $A$ and $B^{c}$ are independent.
+    \item Follows directly from (1) by swapping $A$ and $B$.
+    \item By de Morgan, we have $A^c \cap B^c = (A \cup B)^{c}$. Hence 
+      \begin{align*}
+        \prob(A^c \cap B^c) &= 1 - \prob(A \cup B) \\
+                            &= 1 - (\prob(A) + \prob(B) - \prob(A \cap B)) \\
+                            &= 1 - \prob(A) - \prob(B) + \prob(A) \prob(B) \\
+                            &= (1 - \prob(A)) (1 - \prob(B)) \\
+                            &= \prob(A^{c})\prob(B^{c}),
+      \end{align*}
+      so $A^{c}$ and $B^{c}$ are independent. \qedhere
+  \end{enumerate}
+\end{proof}
+
+We can extend our definition of independence to multiple events.
+\begin{definition}
+  Events $E_1, E_2, \dots, E_n$ are \emph{independent} or \emph{mutually independent} if for every $k \le n$ and $1 \le i_1 \le\dots \le i_k \le n$, \[
+    \prob \left( \, \bigcap_{j = 1}^{k} E_{i_j} \right) = \prod_{j = 1}^{k} \prob(E_{i_j}).
+  \] 
+\end{definition}
+\begin{remark}
+  This definition is different from that of \emph{pairwise} independence, which only requires that every pair of events is independent. Mutual independence is strictly stronger, in the sense that mutual independence implies pairwise independence, but not the converse.
 \end{remark}
 
 \begin{definition}
@@ -116,9 +182,30 @@ We say that a collection of events $\{E_i\}_{i \in I}$ is \emph{exhaustive} if \
 In particular, note that $A$ and $A^{c}$ are exhaustive, and also disjoint.
 
 \begin{definition}
-  We define the \emph{conditional probability} of event $A$ \emph{given} event $B$ as \[
-    \prob(A \mid B) = \frac{\prob(A \cap B)}{\prob(B)},
-  \] given that $\prob(B) > 0$.
+  A \emph{partition} of the sample space $\Omega$ is a collection of events that are mutually exclusive and exhaustive. That is, if $\{E_i\}_{i \in I}$ is a collection of events, then it is a partition if and only if: 
+  \begin{enumerate}
+    \item (Mutually exclusive) For all $i \neq j$, $E_i \cap E_j = \O$.
+    \item (Exhaustive) We have $\bigcup_{i \in I} E_i = \Omega$.
+  \end{enumerate}
+  A partition $\{E_i\}_{i \in I}$ is countable if the set is countable, and uncountable if the set is uncountable.
 \end{definition}
+
+\begin{proposition}[Law of total probability]
+  If $\{E_i\}_{i \in I}$ is a countable partition of $\Omega$, then for any event $A$, \[
+    \prob(A) = \sum_{i \in I} \prob(A \cap E_i).
+  \] or equivalently, \[
+    \prob(A) = \sum_{i \in I} \prob(A \mid E_i) \prob(E_i).
+  \] 
+\end{proposition}
+
+\begin{proposition}[Bayes' formula]
+  Given events $A$ and $B$, with $\prob(B) > 0$, we have \[
+    \prob(A \mid B) = \frac{\prob(B \mid A) \prob(A)}{\prob(B)}.
+  \] Equivalently, if $\{E_i\}_{i \in I}$ is a countable partition of $\Omega$, and $A$ is an event with $\prob(A) > 0$, then \[
+    \prob(E_k \mid A) = \frac{\prob(A \mid E_k) \prob(E_k)}{\sum_{i \in I} \prob(A \mid E_i) \prob(E_i)}.
+  \] 
+\end{proposition}
+
+\section{Random variables}
 
 
