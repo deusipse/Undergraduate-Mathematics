@@ -48,7 +48,7 @@ Since events are sets, we can use the usual properties of sets. In particular, i
   In particular, our definition does not work for some uncountable sample spaces. The restriction for $\mathcal{F}$ to be a $\sigma$-algebra is exactly what is needed to `fix' this issue.
 \end{remark}
 
-\begin{proposition}[Properties of probability]
+\begin{proposition}[Properties of probability] \label{prop:properties}
   Let $\Omega$ be a sample space and let $A, B$ be events. Let $\prob$ be a probability function on $\Omega$.
   \begin{enumerate}
     \item We have $\prob(\O) = 0$.
@@ -208,4 +208,196 @@ In particular, note that $A$ and $A^{c}$ are exhaustive, and also disjoint.
 
 \section{Random variables}
 
+\begin{definition}
+  A \emph{random variable} $X$ is a function $X \colon \Omega \to \R$ that assigns a real number to every outcome in the sample space.
 
+  We define the probability of $X$ taking on a value $x$ as \[
+    \prob(X = x) = \prob(\{\omega \in \Omega : X(\omega) = x\}).
+  \] In general, for any subset $A \subseteq \R$, we have \[
+    \prob(X \in A) = \prob(\{\omega \in \Omega : X(\omega) \in A\}).
+  \] 
+\end{definition}
+
+\begin{definition}
+  The \emph{state space} of $X$, the set of possible values that $X$ can take, is denoted $S_X$. If $S_X$ is countable, then $X$ is a \emph{discrete} random variable.
+\end{definition}
+
+\begin{remark}
+  One can have a discrete random variable in an uncountable sample space. For example, let $\Omega = \R$ and define \[
+    X = 
+    \begin{cases*}
+      1 & if $\omega \ge 0$, \\
+      0 & otherwise.
+    \end{cases*}
+  \]
+\end{remark}
+
+\begin{remark}
+  A random variable partitions $\Omega$. This is the point of having random variables \Emdash to carve up the sample space into smaller chunks, to simplify calculations.
+\end{remark}
+
+\begin{definition}
+  The \emph{probability mass function} (or \emph{pmf}) of a discrete random variable $X$ is a function $p_X \colon S_X \to [0, 1]$ defined by \[
+    p_X(x) = \prob(X = x).
+  \] 
+
+  The \emph{cumulative distribution function} or \emph{distribution function} or \emph{cdf} of any random variable $X$ is a function $F_X \colon \R \to [0, 1]$ defined by \[
+    F_X(x) = \prob(X \le x).
+  \] 
+\end{definition}
+
+\begin{proposition}
+  The pmf $p_X$ of a discrete random variable $X$ satisfies:
+  \begin{enumerate}
+    \item For all $x \in S_x$, $p_X(x) \ge 0$.
+    \item The sum over all $x$ in the state space is $\sum_{x \in S_X} p_X(x) = 1$.
+  \end{enumerate}
+\end{proposition}
+
+\begin{proposition}[Properties of cdfs]
+  The cdf $F_X$ of a random variable $X$ satisfies:
+  \begin{enumerate}
+    \item For real numbers $a < b$, we have $\prob(a < X \le b) = F_X(b) - F_X(a)$.
+    \item $F_X$ is non-decreasing (increasing).
+    \item $\lim_{x \to -\infty} F_X(x) = 0$ and $\lim_{x \to \infty} F_X(x) = 1$.
+    \item $F_X$ is right-continuous. That is, $\lim_{x \to y^{+}} F_X(x) = F_X(y)$ for all $y \in \R$.
+  \end{enumerate}
+\end{proposition}
+
+\begin{proposition}
+  A function $G$ is the cdf of a random variable if and only if  $G$ is non-decreasing, right-continuous, and has $\lim_{x\to -\infty} G(x) = 0$ and $\lim_{x \to \infty} G(x) = 1$.
+\end{proposition}
+
+\begin{definition}
+  A random variable $X$ is \emph{continuous} if its distribution function $F_X$ is continuous (in particular, it is left-continuous as well as right-continuous). In this case, $S_X$ will be uncountable.
+\end{definition}
+
+\begin{proposition}
+  Let $X$ be a random variable. Then,  \[
+    \prob(X < x) =  \lim_{t \to x^{-}} F_X(t)
+  \] and \[
+    \prob(X = x) = F_X(x) - \lim_{t \to x^{-}} F_X(t).
+  \] In particular, $P(X = x) = 0$ for all $x \in S_X$ if and only if $F_X$ is continuous.
+\end{proposition}
+\begin{proof}
+  The second equation $\prob(X = x) = F_X(x) - \lim_{t \to x^{-}}F_X(t)$ immediately follows from the first, due to the fact that $\prob(X = x) = \prob(X \le x) - \prob(X < x)$.
+
+  Consider $\prob(X \le x - h) = F_X(x - h)$ for some real number $h > 0$. Then $\prob(X < x) = \lim_{h \to 0} \prob(X \le x - h) = \lim_{h\to 0} F_X(x-h) = \lim_{t \to x^{-}}F_X(t)$, as required. (Formally, we would use $A_i \coloneq \{X \le x - \frac{1}{n} \}$ and apply Proposition~\ref{prop:properties}(8).)
+
+  Now we see that $\prob(X = x) = 0$ if and only if $F_X(x) = \lim_{t\to x^{-}}F_X(t)$, which is equivalent to left-continuity. But since all distribution functions are already right-continuous, adding left-continuity simply makes it continuous. Hence  $\prob(X = x) = 0$ for all $x$ if and only if $F_X$ is continuous.
+\end{proof}
+
+\begin{definition}
+  A function $f \colon \R \to [0, \infty)$ is said to be a \emph{probability density function} or \emph{pdf} of a continuous random variable $X$ if \[
+    \int_{-\infty}^{x} f(t) \dl t = F_X(x).
+  \] If it exists, the pdf of a random variable is unique.
+\end{definition}
+
+\begin{proposition}[Properties of pdfs]
+  Let $X$ be a continuous random variable with probability density function $f_X$. Then:
+  \begin{enumerate}
+    \item For all $x \in \R$, we have $f_X(x) \ge 0$.
+    \item $\displaystyle \int_{-\infty}^{\infty} f_X(t) \dl t = 1$.
+    \item For real numbers $a < b$, \[
+        \prob(a < X \le b) = \int_{a}^{b} f_X(t) \dl t.
+      \]
+    \item For almost all values of $x$, \[
+        \diff{F_X(x)}{x}  = f_X(x).
+    \] 
+  \end{enumerate}
+\end{proposition}
+
+\begin{remark}
+  Importantly, \warning{not all} continuous random variables have a pdf. These are, however, rare and pathological.
+\end{remark}
+
+\section{Expectation}
+
+\begin{definition}
+  Let $X$ be a discrete random variable with pmf $p_X$. Then, the \emph{expected value}, or \emph{mean} of $X$ is defined to be \[
+    \E(X) = \sum_{x \in S_X} xp_X(x),
+  \] provided that the sum converges absolutely. If the state space $S_X$ is finite, then the expected value is always defined. The expected value is sometimes denoted $\mu_X$ or simply $\mu$ if $X$ is clear from context.
+\end{definition}
+
+\begin{definition}
+  Let $X$ be a continuous random variable with pdf $f_X$. Then, the expected value of $X$ is defined to be \[
+    \E(X) = \int_{-\infty}^{\infty} xf_X(x) \dl x,
+  \] provided that the integral converges absolutely.
+\end{definition}
+
+\begin{proposition}
+  Let $X$ be a random variable and let $g\colon \R \to \R$ be a function.
+  \begin{enumerate}
+    \item If $X$ is a discrete random variable with pmf $p_X$, then \[
+        \E(g(X)) = \sum_{x \in S_X} g(x) p_X(x),
+      \] provided the sum converges absolutely.
+    \item If $X$ is a continuous random variable with pdf $f_X$, then \[
+        \E(g(X)) = \int_{-\infty}^{\infty} g(x)f_X(x) \dl x,
+      \] provided that the integral converges absolutely.
+  \end{enumerate}
+\end{proposition}
+\begin{proof}
+  We prove the discrete case, and leave the continuous case as an exercise. Clearly, $Y \coloneq g(X)$ is a discrete random variable, so working from the definition, we have
+  \begin{align*}
+    \E(g(X)) = \E(Y) &= \sum_{y \in S_Y} y \prob(Y = y) \\
+                     &= \sum_{y \in S_Y} y \prob(g(X) = y).
+  \end{align*}
+  Let $g^{-1}(y) \coloneq \{x \in \R : g(x) = y\}$ be the preimage of $y$. Then, we see that $g(X) = y$ is equivalent to $X \in g^{-1}(y)$, so 
+  \begin{align*}
+    \E(Y) &= \sum_{y \in S_Y} y \prob(X \in g^{-1}(y)) \\
+          &= \sum_{y \in S_Y} y \sum_{x \in g^{-1}(y)} \prob(X = x) \\
+          &= \sum_{y \in S_Y} \sum_{x \in g^{-1}(y)} y \prob(X = x),
+  \end{align*}
+  where the swapping of the summations is justified by absolute convergence. Now, inside the sum, $y = g(x)$, and moreover,  $\prob(X = x) = p_X(x)$ by definition. Note that summing over all $y \in S_Y$ and $x \in g^{-1}(y)$ is equivalent to summing over all $x \in S_X$, since $S_X$ is partitioned by the set of all preimages of $y \in S_Y$. Thus, we obtain \[
+    \E(g(X)) = \E(Y) = \sum_{x \in S_X} g(x) p_X(x)
+  \] as desired.
+\end{proof}
+
+\begin{proposition}
+  Let $X$ be a random variable, and $a, b \in \R$ be constants. Then, \[
+    \E(aX + b) = a\E(X) + b.
+  \] 
+\end{proposition}
+
+\begin{definition}
+  The \emph{variance} of a random variable $X$ is defined by \[
+    \var(X) = \E[(X - \E(X))^2].
+  \] This is sometimes denoted as $\sigma^2_X$ or just  $\sigma^2$ if $X$ is clear from context. 
+\end{definition}
+
+\begin{definition}
+  The \emph{standard deviation}, denoted $\sigma_X$ or $\sigma$ or $\sd(X)$, of a random variable $X$ is the square root of its variance. That is, \[
+    \sigma_X = \sqrt{\var(X)} = \sqrt{\E[(X - \E(X))^2]}.
+  \] 
+\end{definition}
+
+\begin{remark}
+  The standard deviation is a measure of the spread or variability of a random variable. This is because the variation measures the average squared distance to the mean. The reason why the standard deviation is the square root of the mean is to make the units equal to the units of the original random variable. The reason why the variation is the expected value of the squared distance to the mean, instead of absolute value or some other metric, is because it simplifies calculations.
+\end{remark}
+
+\begin{proposition}[Properties of variance and standard deviation]
+  Let $X$ be a random variable.
+  \begin{enumerate}
+    \item $\var(X) \ge 0$.
+    \item If $Y = aX + b$ for real numbers $a$ and $b$, then $\var(Y) = a^2\var(X)$ and $\sd(Y) = \abs{a}\sd(X)$.
+    \item $\var(X) = \E(X^2) - \E(X)^2$.
+  \end{enumerate}
+\end{proposition}
+
+\begin{definition}
+  The $k$\textsuperscript{th} \emph{moment} of a random variable $X$ is given by \[
+    \mu_k = \E(X^k).
+  \] The $k$\textsuperscript{th} \emph{central moment} of a random variable $X$ is given by \[
+  \nu_k = \E[(X - \E(X))^{k}].
+  \] Thus $\var(X) = \nu_2 = \mu_2 - \mu_1^2$.
+\end{definition}
+
+\begin{remark}
+  The first few moments give valuable information about the distribution. 
+  \begin{itemize}
+    \item The first moment $\mu_1$ tells you the mean.
+    \item The second central moment $\nu_2$ tells you the variance.
+    \item The third central moment $\nu_3$ (after normalisation) tells you the \emph{skewness}, that is, how lopsided the distribution is. A random variable with a perfectly symmetric pdf will have a skewness of zero.
+    \item The fourth central moment $\nu_4$ (after normalisation) tells you about the heaviness of the tail.
+  \end{itemize}
+\end{remark}

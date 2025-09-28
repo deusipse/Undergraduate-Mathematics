@@ -3,17 +3,25 @@
 \usepackage{mathtools}
 \usepackage{amsthm, amsfonts, amssymb}
 \usepackage{microtype}
+\usepackage{diffcoeff}
 \usepackage{extdash}
 \usepackage{booktabs}
 \usepackage{tikz, pgfplots}
 \pgfplotsset{compat=1.18}
 \usepackage[svgnames, dvipsnames, table]{xcolor}
 \usepackage{hyperref}
+
 \hypersetup{
   pdfauthor   = {Edward Wang},
   pdftitle    = {Mathematics},
   pdfsubject  = {Mathematics},
   pdfkeywords = {analysis, probability, prob, group theory, algebra, linear algebra, mathematics}
+}
+
+\difdef { f, s, c, l } {}
+{
+op-symbol = d ,
+op-order-nudge = 1 mu
 }
 
 % list of theorems
@@ -43,8 +51,10 @@
 \DeclareMathOperator{\Hom}{Hom}
 \DeclareMathOperator{\sgn}{sgn}
 \DeclareMathOperator{\lcm}{lcm}
-
 \DeclareMathOperator{\prob}{\mathbb{P}}
+\DeclareMathOperator{\E}{\mathbb{E}}
+\DeclareMathOperator{\var}{Var}
+\DeclareMathOperator{\sd}{sd}
 
 \newcommand\N{\mathbb{N}}
 \newcommand\Z{\mathbb{Z}}
