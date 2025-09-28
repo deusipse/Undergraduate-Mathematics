@@ -325,7 +325,7 @@ In particular, note that $A$ and $A^{c}$ are exhaustive, and also disjoint.
   \] provided that the integral converges absolutely.
 \end{definition}
 
-\begin{proposition}
+\begin{proposition} \label{prop:lotus}
   Let $X$ be a random variable and let $g\colon \R \to \R$ be a function.
   \begin{enumerate}
     \item If $X$ is a discrete random variable with pmf $p_X$, then \[
@@ -401,3 +401,25 @@ In particular, note that $A$ and $A^{c}$ are exhaustive, and also disjoint.
     \item The fourth central moment $\nu_4$ (after normalisation) tells you about the heaviness of the tail.
   \end{itemize}
 \end{remark}
+
+\begin{proposition}[Moment via tail probability formula]
+  Let $X$ be a non-negative random variable and $n$ be a positive integer. Then, \[
+    \E(X^{n}) = n \int_{0}^{\infty} x^{n-1} (1 - F_X(x)) \dl x.
+  \] 
+\end{proposition}
+\begin{proof}
+  First, note that \[
+    x^{n} = \int_{0}^{x} ny^{n-1} \dl y.
+  \] Thus, by Proposition~\ref{prop:lotus}, we have 
+  \begin{align*}
+    \E(X^n) &= \int_{0}^{\infty} x^n f_X (x) \dl x \\
+            &= \int_{0}^{\infty} \left( \int_{0}^{x} ny^{n-1} \dl y \right) f_X(x) \dl x.
+  \end{align*}
+  We may apply Fubini's theorem (or rather, Tonelli's theorem due to the non-negativity of the integrand) to exchange the order of integration. The innermost integral will be integrated with respect to $x$ from $y$ to $\infty$, because we have that $y \le x$, and $x$ is unbounded. The outermost integral will be integrated with respect to $y$ from $0$ to $\infty$. Thus, we have 
+  \begin{align*}
+    \E(X^n) &= \int_{0}^{\infty} ny^{n-1} \left( \int_{y}^{\infty} f_X(x) \dl x \right) \dl y \\
+            &= n\int_{0}^{\infty} y^{n-1} \prob(X > y) \dl y \\
+            &= n \int_{0}^{\infty} y^{n-1} (1 - F_X(y)) \dl y,
+  \end{align*}
+  from which the formula is obtained after a changing the dummy variable $y$ back to $x$.
+\end{proof}
