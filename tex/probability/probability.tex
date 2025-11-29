@@ -315,13 +315,13 @@ In particular, note that $A$ and $A^{c}$ are exhaustive, and also disjoint.
 
 \begin{definition}
   Let $X$ be a discrete random variable with pmf $p_X$. Then, the \emph{expected value}, or \emph{mean} of $X$ is defined to be \[
-    \E(X) = \sum_{x \in S_X} xp_X(x),
+    \E[X] = \sum_{x \in S_X} xp_X(x),
   \] provided that the sum converges absolutely. If the state space $S_X$ is finite, then the expected value is always defined. The expected value is sometimes denoted $\mu_X$ or simply $\mu$ if $X$ is clear from context.
 \end{definition}
 
 \begin{definition}
   Let $X$ be a continuous random variable with pdf $f_X$. Then, the expected value of $X$ is defined to be \[
-    \E(X) = \int_{-\infty}^{\infty} xf_X(x) \dl x,
+    \E[X] = \int_{-\infty}^{\infty} xf_X(x) \dl x,
   \] provided that the integral converges absolutely.
 \end{definition}
 
@@ -329,45 +329,45 @@ In particular, note that $A$ and $A^{c}$ are exhaustive, and also disjoint.
   Let $X$ be a random variable and let $g\colon \R \to \R$ be a function.
   \begin{enumerate}
     \item If $X$ is a discrete random variable with pmf $p_X$, then \[
-        \E(g(X)) = \sum_{x \in S_X} g(x) p_X(x),
+        \E[g(X)] = \sum_{x \in S_X} g(x) p_X(x),
       \] provided the sum converges absolutely.
     \item If $X$ is a continuous random variable with pdf $f_X$, then \[
-        \E(g(X)) = \int_{-\infty}^{\infty} g(x)f_X(x) \dl x,
+        \E[g(X)] = \int_{-\infty}^{\infty} g(x)f_X(x) \dl x,
       \] provided that the integral converges absolutely.
   \end{enumerate}
 \end{proposition}
 \begin{proof}
   We prove the discrete case, and leave the continuous case as an exercise. Clearly, $Y \coloneq g(X)$ is a discrete random variable, so working from the definition, we have
   \begin{align*}
-    \E(g(X)) = \E(Y) &= \sum_{y \in S_Y} y \prob(Y = y) \\
+    \E[g(X)] = \E[Y] &= \sum_{y \in S_Y} y \prob(Y = y) \\
                      &= \sum_{y \in S_Y} y \prob(g(X) = y).
   \end{align*}
   Let $g^{-1}(y) \coloneq \{x \in \R : g(x) = y\}$ be the preimage of $y$. Then, we see that $g(X) = y$ is equivalent to $X \in g^{-1}(y)$, so 
   \begin{align*}
-    \E(Y) &= \sum_{y \in S_Y} y \prob(X \in g^{-1}(y)) \\
+    \E[Y] &= \sum_{y \in S_Y} y \prob(X \in g^{-1}(y)) \\
           &= \sum_{y \in S_Y} y \sum_{x \in g^{-1}(y)} \prob(X = x) \\
           &= \sum_{y \in S_Y} \sum_{x \in g^{-1}(y)} y \prob(X = x),
   \end{align*}
   where the swapping of the summations is justified by absolute convergence. Now, inside the sum, $y = g(x)$, and moreover,  $\prob(X = x) = p_X(x)$ by definition. Note that summing over all $y \in S_Y$ and $x \in g^{-1}(y)$ is equivalent to summing over all $x \in S_X$, since $S_X$ is partitioned by the set of all preimages of $y \in S_Y$. Thus, we obtain \[
-    \E(g(X)) = \E(Y) = \sum_{x \in S_X} g(x) p_X(x)
+    \E[g(X)] = \E[Y] = \sum_{x \in S_X} g(x) p_X(x)
   \] as desired.
 \end{proof}
 
 \begin{proposition}
   Let $X$ be a random variable, and $a, b \in \R$ be constants. Then, \[
-    \E(aX + b) = a\E(X) + b.
+    \E[aX + b] = a\E[X] + b.
   \] 
 \end{proposition}
 
 \begin{definition}
   The \emph{variance} of a random variable $X$ is defined by \[
-    \var(X) = \E[(X - \E(X))^2].
+    \var(X) = \E[(X - \E[X])^2].
   \] This is sometimes denoted as $\sigma^2_X$ or just  $\sigma^2$ if $X$ is clear from context. 
 \end{definition}
 
 \begin{definition}
   The \emph{standard deviation}, denoted $\sigma_X$ or $\sigma$ or $\sd(X)$, of a random variable $X$ is the square root of its variance. That is, \[
-    \sigma_X = \sqrt{\var(X)} = \sqrt{\E[(X - \E(X))^2]}.
+    \sigma_X = \sqrt{\var(X)} = \sqrt{\E[(X - \E[X])^2]}.
   \] 
 \end{definition}
 
@@ -380,15 +380,15 @@ In particular, note that $A$ and $A^{c}$ are exhaustive, and also disjoint.
   \begin{enumerate}
     \item $\var(X) \ge 0$.
     \item If $Y = aX + b$ for real numbers $a$ and $b$, then $\var(Y) = a^2\var(X)$ and $\sd(Y) = \abs{a}\sd(X)$.
-    \item $\var(X) = \E(X^2) - \E(X)^2$.
+    \item $\var(X) = \E[X^2] - \E[X]^2$.
   \end{enumerate}
 \end{proposition}
 
 \begin{definition}
-  The $k$\textsuperscript{th} \emph{moment} of a random variable $X$ is given by \[
-    \mu_k = \E(X^k).
+  The $k$\textsuperscript{th} \emph{moment} (about the origin) of a random variable $X$ is given by \[
+    \mu_k = \E[X^k].
   \] The $k$\textsuperscript{th} \emph{central moment} of a random variable $X$ is given by \[
-  \nu_k = \E[(X - \E(X))^{k}].
+  \nu_k = \E[(X - \E[X])^{k}].
   \] Thus $\var(X) = \nu_2 = \mu_2 - \mu_1^2$.
 \end{definition}
 
@@ -404,7 +404,7 @@ In particular, note that $A$ and $A^{c}$ are exhaustive, and also disjoint.
 
 \begin{proposition}[Moment via tail probability formula]
   Let $X$ be a non-negative random variable and $n$ be a positive integer. Then, \[
-    \E(X^{n}) = n \int_{0}^{\infty} x^{n-1} (1 - F_X(x)) \dl x.
+    \E[X^{n}] = n \int_{0}^{\infty} x^{n-1} (1 - F_X(x)) \dl x.
   \] 
 \end{proposition}
 \begin{proof}
@@ -412,14 +412,87 @@ In particular, note that $A$ and $A^{c}$ are exhaustive, and also disjoint.
     x^{n} = \int_{0}^{x} ny^{n-1} \dl y.
   \] Thus, by Proposition~\ref{prop:lotus}, we have 
   \begin{align*}
-    \E(X^n) &= \int_{0}^{\infty} x^n f_X (x) \dl x \\
+    \E[X^n] &= \int_{0}^{\infty} x^n f_X (x) \dl x \\
             &= \int_{0}^{\infty} \left( \int_{0}^{x} ny^{n-1} \dl y \right) f_X(x) \dl x.
   \end{align*}
   We may apply Fubini's theorem (or rather, Tonelli's theorem due to the non-negativity of the integrand) to exchange the order of integration. The innermost integral will be integrated with respect to $x$ from $y$ to $\infty$, because we have that $y \le x$, and $x$ is unbounded. The outermost integral will be integrated with respect to $y$ from $0$ to $\infty$. Thus, we have 
   \begin{align*}
-    \E(X^n) &= \int_{0}^{\infty} ny^{n-1} \left( \int_{y}^{\infty} f_X(x) \dl x \right) \dl y \\
+    \E[X^n] &= \int_{0}^{\infty} ny^{n-1} \left( \int_{y}^{\infty} f_X(x) \dl x \right) \dl y \\
             &= n\int_{0}^{\infty} y^{n-1} \prob(X > y) \dl y \\
             &= n \int_{0}^{\infty} y^{n-1} (1 - F_X(y)) \dl y,
   \end{align*}
   from which the formula is obtained after a changing the dummy variable $y$ back to $x$.
 \end{proof}
+
+\section{Discrete probability distributions}
+
+\subsection{Bernoulli}
+
+\begin{definition}
+  A random variable $X$ has a \emph{Bernoulli distribution} with parameter $p \in [0, 1]$ if $S_X = \{0, 1\}$ and its pmf is
+  \begin{align*}
+    p_X(1) &= p \\
+    p_X(0) &= 1 - p.
+  \end{align*}
+  We say that $X$ is a \emph{Bernoulli random variable}.
+
+  A \emph{Bernoulli trial} is an experiment whose outcome is modeled by a Bernoulli random variable.
+\end{definition}
+
+\begin{proposition}
+  If $X$ has a Bernoulli distribution with parameter $p$, then 
+  \begin{align*}
+    \E[X] &= p \\
+    \var(X) &= p(1-p).
+  \end{align*}
+\end{proposition}
+
+\subsection{Binomial}
+
+\begin{remark}
+  A binomial random variable is equivalent to the number of successes in $n$ independent Bernoulli trials.
+\end{remark}
+
+\subsection{Geometric}
+
+\begin{remark}
+  A geometric random variable can be thought of as the number of failures before the first success.
+\end{remark}
+
+\subsection{Negative binomial}
+
+\begin{remark}
+  A negative binomial random variable can be thought of as the number of failures before the $r$th success.
+\end{remark}
+
+\subsection{Hypergeometric}
+
+\begin{remark}
+  A hypergeometric random variable can thought of as the number of failures before the $r$th success, without replacement. For example, a hypergeometric random variable describes the number of blue balls taken from a basket of blue and red balls before taking the $r$th red ball.
+\end{remark}
+
+\subsection{Poisson}
+
+\subsection{Uniform}
+
+\section{Continuous probability distributions}
+
+\subsection{Uniform}
+
+\subsection{Exponential}
+
+\subsection{Gamma}
+
+\subsection{Beta}
+
+\subsection{Pareto}
+
+\subsection{Weibull}
+
+\subsection{Normal}
+
+\subsection{Cauchy}
+
+\subsection{Lognormal}
+
+\section{Bivariate random variables}
